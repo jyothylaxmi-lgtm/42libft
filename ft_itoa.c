@@ -1,50 +1,63 @@
 /* ************************************************************************** */
 /*                                                                            */
-/*                                                        :::      ::::::::   */
-/*   ft_itoa.c                                          :+:      :+:    :+:   */
-/*                                                    +:+ +:+         +:+     */
-/*   By: jkaithav <jkaithav@student.42.fr>          +#+  +:+       +#+        */
-/*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2026/09/04 17:44:05 by username          #+#    #+#             */
-/*   Updated: 2026/09/04 18:53:06 by jkaithav         ###   ########.fr       */
+/*                                                       :::      ::::::::    */
+/*   ft_itoa.c                                         :+:      :+:    :+:    */
+/*                                                   +:+ +:+         +:+      */
+/*   By: username <username@student.42tokyo.jp>    #+#  +:+       +#+         */
+/*                                               +#+#+#+#+#+   +#+            */
+/*   Created: 2026/09/04 17:44:05 by username         #+#    #+#              */
+/*   Updated: 2026/09/08 20:42:30 by username        ###   ########.fr        */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
+#include "libft.h"
+
+static size_t	num_len(long n)
+{
+	size_t	len;
+
+	len = 0;
+	if (n == 0)
+		return (1);
+	while (n > 0)
+	{
+		n /= 10;
+		len++;
+	}
+	return (len);
+}
+
+static void	fill_number(char *str, long n, size_t len)
+{
+	while (n > 0)
+	{
+		str[--len] = (n % 10) + '0';
+		n /= 10;
+	}
+}
 
 char	*ft_itoa(int n)
 {
-	int		neg;
-	char	*result;
 	long	number;
 	size_t	len;
-	size_t	i;
+	char	*result;
 
-	len = 0;
 	number = n;
-	if (n < 0)
+	len = 0;
+	if (number < 0)
 	{
 		number = -number;
-		neg = 1;
-	}
-	while (n > 0)
-	{
-		number = number / 10;
-		len++;
-	}
-	if (n == 0)
 		len = 1;
-	if (n < 0)
-		len++;
-	result = malloc(len + 1);
-	result[len] = '\0';
-	while (number > 0)
-	{
-		result[len - i] = number % 10 + '0';
-		i++;
-		number = number / 10;
 	}
-	if (n < 0)
+	len += num_len(number);
+	result = ft_calloc(len + 1, 1);
+	if (!result)
+		return (NULL);
+	fill_number(result, number, len);
+	if (n == 0)
+		result[0] = '0';
+	else if (n < 0)
 		result[0] = '-';
 	return (result);
 }

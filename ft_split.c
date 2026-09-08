@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
-/*                                                        :::      ::::::::   */
-/*   ft_split.c                                         :+:      :+:    :+:   */
-/*                                                    +:+ +:+         +:+     */
-/*   By: jkaithav <jkaithav@student.42.fr>          +#+  +:+       +#+        */
-/*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2026/09/07 11:26:05 by username          #+#    #+#             */
-/*   Updated: 2026/09/07 14:41:50 by jkaithav         ###   ########.fr       */
+/*                                                       :::      ::::::::    */
+/*   ft_split.c                                        :+:      :+:    :+:    */
+/*                                                   +:+ +:+         +:+      */
+/*   By: username <username@student.42tokyo.jp>    #+#  +:+       +#+         */
+/*                                               +#+#+#+#+#+   +#+            */
+/*   Created: 2026/09/07 11:26:05 by username         #+#    #+#              */
+/*   Updated: 2026/09/08 21:05:23 by username        ###   ########.fr        */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,42 +28,73 @@ static int	word_count(char const *s, char c)
 	return (words);
 }
 
-char	**ft_split(char const *s, char c)
+static void	free_split(char **result, int count)
 {
-	int		i;
-	int		j;
+	while (count >= 0)
+	{
+		free(result[count]);
+		count--;
+	}
+	free(result);
+}
+
+static char	*get_word(char const *s, int start, int len)
+{
+	char	*word;
 	int		k;
-	int		words;
-	int		start;
-	int		wordlen;
-	char	**result;
+
+	word = malloc((len + 1) * sizeof(char));
+	if (word == NULL)
+		return (NULL);
+	k = 0;
+	while (k < len)
+	{
+		word[k] = s[start + k];
+		k++;
+	}
+	word[k] = '\0';
+	return (word);
+}
+
+static int	fill_words(char **result, char const *s, char c, int words)
+{
+	int	i;
+	int	j;
+	int	start;
 
 	i = 0;
 	j = 0;
-	words = word_count(s, c);
-	result = malloc((words + 1) * sizeof(char *));
-	if (result == NULL)
-		return (NULL);
 	while (j < words)
 	{
 		while (s[i] == c)
 			i++;
 		start = i;
-		while (s[i] != c && s[i] != '\0')
+		while (s[i] != '\0' && s[i] != c)
 			i++;
-		wordlen = i - start;
-		result[j] = malloc((wordlen + 1) * sizeof(char));
+		result[j] = get_word(s, start, i - start);
 		if (result[j] == NULL)
-			return (NULL);
-		k = 0;
-		while (k < wordlen)
 		{
-			result[j][k] = s[start + k];
-			k++;
+			free_split(result, j - 1);
+			return (0);
 		}
-		result[j][k] = '\0';
 		j++;
 	}
 	result[j] = NULL;
+	return (1);
+}
+
+char	**ft_split(char const *s, char c)
+{
+	char	**result;
+	int		words;
+
+	if (s == NULL)
+		return (NULL);
+	words = word_count(s, c);
+	result = malloc((words + 1) * sizeof(char *));
+	if (result == NULL)
+		return (NULL);
+	if (!fill_words(result, s, c, words))
+		return (NULL);
 	return (result);
 }

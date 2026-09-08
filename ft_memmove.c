@@ -1,12 +1,24 @@
 /* ************************************************************************** */
 /*                                                                            */
+/*                                                       :::      ::::::::    */
+/*   ft_memmove.c                                      :+:      :+:    :+:    */
+/*                                                   +:+ +:+         +:+      */
+/*   By: username <username@student.42tokyo.jp>    #+#  +:+       +#+         */
+/*                                               +#+#+#+#+#+   +#+            */
+/*   Created: 2026/09/08 20:18:15 by username         #+#    #+#              */
+/*   Updated: 2026/09/08 20:18:24 by username        ###   ########.fr        */
+/*                                                                            */
+/* ************************************************************************** */
+
+/******************************************************************************/
+/*                                                                            */
 /*                                                        :::      ::::::::   */
 /*   ft_memmove.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jkaithav <jkaithav@student.42.fr>          +#+  +:+       +#+        */
+/*   By: jkaithav <jkaithav@student.42bangkok.co    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/09/02 13:50:25 by username          #+#    #+#             */
-/*   Updated: 2026/09/05 19:08:19 by jkaithav         ###   ########.fr       */
+/*   Updated: 2026/09/08 19:27:09 by jkaithav         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,31 +26,26 @@
 
 void	*ft_memmove(void *dest, const void *src, size_t n)
 {
-	unsigned char	*d;
-	unsigned char	*s;
-	size_t			i;
+	unsigned char		*d;
+	const unsigned char	*s;
 
-	s = (char *) src;
-	d = (char *) dest;
-	if (d == NULL || s == NULL)
+	if (!dest && !src)
 		return (dest);
+	s = (const unsigned char *) src;
+	d = (unsigned char *) dest;
 	if (d < s)
 	{
-		i = 0;
-		while (i < n)
+		while (n--)
 		{
-			d[i] = s[i];
-			i++;
+			*d = *s;
+			d++;
+			s++;
 		}
 	}
-	else
+	else if (d > s)
 	{
-		i = n;
-		while (i > 0)
-		{
-			i--;
-			d[i] = s[i];
-		}
+		while (n--)
+			d[n] = s[n];
 	}
 	return (dest);
 }

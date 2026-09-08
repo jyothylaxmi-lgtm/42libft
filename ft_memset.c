@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
-/*                                                       :::      ::::::::    */
-/*   ft_memset.c                                       :+:      :+:    :+:    */
-/*                                                   +:+ +:+         +:+      */
-/*   By: username <username@student.42tokyo.jp>    #+#  +:+       +#+         */
-/*                                               +#+#+#+#+#+   +#+            */
-/*   Created: 2026/09/01 18:02:57 by username         #+#    #+#              */
-/*   Updated: 2026/09/04 12:38:07 by username        ###   ########.fr        */
+/*                                                        :::      ::::::::   */
+/*   ft_memset.c                                        :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: jkaithav <jkaithav@student.42bangkok.co    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2026/09/01 18:02:57 by username          #+#    #+#             */
+/*   Updated: 2026/09/08 19:03:24 by jkaithav         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,10 +15,9 @@
 void	*ft_memset(void *s, int c, size_t n)
 {
 	unsigned char	*ptr;
+	size_t			i;
 
 	ptr = (unsigned char *) s;
-	size_t	i;
-
 	i = 0;
 	while (i < n)
 	{
